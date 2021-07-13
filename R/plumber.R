@@ -1344,7 +1344,8 @@ urlHost <- function(scheme = "http", host, port, path = "", changeHostLocation =
   if (isTRUE(changeHostLocation)) {
     # upgrade callback location to be localhost and not catch-all addresses
     # shiny: https://github.com/rstudio/shiny/blob/95173f6/R/server.R#L781-L786
-    if (identical(host, "0.0.0.0")) {
+    is_rstudio <- Sys.getenv("RSTUDIO", "0") == "1"
+    if (identical(host, "0.0.0.0") && is_rstudio) {
       # RStudio IDE does NOT like 0.0.0.0 locations.
       # Must use 127.0.0.1 instead.
       host <- "127.0.0.1"
